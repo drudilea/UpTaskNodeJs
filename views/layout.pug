@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+    head
+        include partials/header
+    body
+        header.barra
+            h1 UpTask - Projects administrator
+            a(href="/logout") Log out
+
+        main.contenedor
+            aside.contenedor-proyectos
+                .panel.crear-proyecto
+                    a(href="/new-project" class="boton") New Project
+                        span +
+                .panel.lista-proyectos
+                    h2 Projects
+                    ul#proyectos.proyectos
+                        if(projects && projects.length)
+                            each project in projects
+                                li
+                                    a(href=`/projects/${project.url}`)= project.name
+
+
+            block content
+
+        script(src="/dist/bundle.js")
