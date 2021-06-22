@@ -36,6 +36,12 @@ const Users = db.define(
         },
       },
     },
+    active: {
+      type: Sequelize.INTEGER(1),
+      defaultValue: 0,
+    },
+    token: Sequelize.STRING,
+    expiration: Sequelize.DATE,
   },
   {
     hooks: {
@@ -46,12 +52,11 @@ const Users = db.define(
   }
 );
 
-
 // Custom methods
 Users.prototype.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.password)
-}
+  return bcrypt.compareSync(password, this.password);
+};
 
-// Users.hasMany(Projects);
+Users.hasMany(Projects);
 
 module.exports = Users;

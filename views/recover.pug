@@ -4,7 +4,9 @@ html(lang="en")
         include partials/header
     body.login
         .contenedor-formulario
-            h1 Login to UpTask
+            h1= pageTitle
+
+            p Write your email to recover your password
 
             if locals.messages
                 .alertas
@@ -12,16 +14,11 @@ html(lang="en")
                         each error in messages[category]
                             .alerta(class=`${category}`)= error
 
-            form#formulario.caja.caja-login(method="POST" action="/login")
+            form#formulario.caja.caja-login(method="POST" action="/recover")
                 .campo
                     label(for="email") E-mail:
                     input(type="text" name="email" placeholder="Email" required value= email)
-                .campo
-                    label(for="password") Password:
-                    input(type="password" name="password" placeholder="Password"
-                    required value= password)
                 .campo.enviar
-                    input.boton(type="submit" value="Login")
+                    input.boton(type="submit" value="Recover")
                 .campo.acciones
-                    a(href="/new-user") Create your account
-                    a(href="/recover") Forgot your password?
+                    a(href="/login") Go to Login

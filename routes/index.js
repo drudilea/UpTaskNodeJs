@@ -12,12 +12,16 @@ const authController = require('../controllers/authController');
 
 module.exports = function () {
   // Home routes
-  router.get('/',
+  router.get(
+    '/',
     authController.isAuthenticatedUser,
-    projectsController.projectsHome);
-  router.get('/new-project',
+    projectsController.projectsHome
+  );
+  router.get(
+    '/new-project',
     authController.isAuthenticatedUser,
-    projectsController.projectsForm);
+    projectsController.projectsForm
+  );
   router.post(
     '/new-project',
     authController.isAuthenticatedUser,
@@ -26,14 +30,18 @@ module.exports = function () {
   );
 
   // Projects list
-  router.get('/projects/:url',
+  router.get(
+    '/projects/:url',
     authController.isAuthenticatedUser,
-    projectsController.projectsByUrl);
+    projectsController.projectsByUrl
+  );
 
   // Update project
-  router.get('/project/edit/:id',
+  router.get(
+    '/project/edit/:id',
     authController.isAuthenticatedUser,
-    projectsController.editProjectForm);
+    projectsController.editProjectForm
+  );
   router.post(
     '/new-project/:id',
     authController.isAuthenticatedUser,
@@ -42,30 +50,41 @@ module.exports = function () {
   );
 
   // Delete project
-  router.delete('/projects/:url',
+  router.delete(
+    '/projects/:url',
     authController.isAuthenticatedUser,
-    projectsController.deleteProject);
+    projectsController.deleteProject
+  );
 
   // Add task
-  router.post('/projects/:url',
+  router.post(
+    '/projects/:url',
     authController.isAuthenticatedUser,
-    tasksController.addTask);
+    tasksController.addTask
+  );
 
   // Update task
-  router.patch('/tasks/:id',
+  router.patch(
+    '/tasks/:id',
     authController.isAuthenticatedUser,
-    tasksController.changeTaskState);
+    tasksController.changeTaskState
+  );
 
   // Delete task
-  router.delete('/tasks/:id',
+  router.delete(
+    '/tasks/:id',
     authController.isAuthenticatedUser,
-    tasksController.deleteTask);
+    tasksController.deleteTask
+  );
 
   // New user page
   router.get('/new-user', usersController.createUserForm);
 
   // Add user
   router.post('/new-user', usersController.createUser);
+
+  // Confirm email page
+  router.get('/confirm/:email', usersController.confirmAccount);
 
   // Login page
   router.get('/login', usersController.loginForm);
@@ -75,6 +94,12 @@ module.exports = function () {
 
   // Logout
   router.get('/logout', authController.logout);
+
+  // Recover password
+  router.get('/recover', usersController.recoverPasswordForm);
+  router.post('/recover', authController.generateToken);
+  router.get('/recover/:token', authController.resetPasswordForm);
+  router.post('/recover/:token', authController.updatePassword);
 
   return router;
 };

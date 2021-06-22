@@ -3,6 +3,7 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+require('dotenv').config({ path: 'variables.env' });
 
 const passport = require('./config/passport');
 const routes = require('./routes');
@@ -48,16 +49,24 @@ app.use(
   })
 );
 
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Send vardump to app
 app.use((req, res, next) => {
   res.locals.vardump = helpers.vardump;
   res.locals.messages = req.flash();
+  res.locals.user = { ...req.user } || null;
   next();
 });
 
 app.use('/', routes());
 
-app.listen(3000);
+// Server and port
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
+app.listen(port, host, () => {
+  console.log('Server online!');
+});
+
+require('./handlers/email');

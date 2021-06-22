@@ -13,7 +13,7 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await Users.findOne({
-          where: { email },
+          where: { email, active: 1 },
         });
 
         // User found, wrong password
@@ -24,7 +24,7 @@ passport.use(
         }
 
         // Email exists and valid password
-        return done(null, user)
+        return done(null, user);
       } catch (error) {
         // User not found
         return done(null, false, {
